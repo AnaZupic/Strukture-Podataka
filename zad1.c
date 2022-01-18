@@ -1,9 +1,10 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #define MAX_SIZE (128)
 #define MAX_LINE (1024)
-#define _CRT_SECURE_NO_WARNINGS
+
 
 typedef struct _student {
 	char ime[MAX_SIZE];
@@ -21,7 +22,7 @@ int main()
 	student*studenti = NULL;
 	int n;
 
-	dat = fopen_s("studenti.txt", "r");
+	dat = fopen("studenti.txt", "r");
 
 	n = ProcitajBrojRedakaIzDatoteke("studenti.txt");
 	printf("Broj studenata u datoteci: %d", n);
@@ -42,7 +43,7 @@ int ProcitajBrojRedakaIzDatoteke(char*nazivDatoteke)
 	FILE*datoteka = NULL;
 	char buffer[MAX_LINE] = { 0 };
 
-	datoteka = fopen_s(nazivDatoteke, "r");
+	datoteka = fopen(nazivDatoteke, "r");
 
 	if (!datoteka) {
 		printf("Greska!");
@@ -51,7 +52,7 @@ int ProcitajBrojRedakaIzDatoteke(char*nazivDatoteke)
 
 	while (!feof(datoteka))
 	{
-		fegts(buffer, MAX_LINE, datoteka);
+		fgets(buffer, MAX_LINE, datoteka);
 		brojac++;
 	}
 
@@ -67,7 +68,7 @@ student*AlocirajMemorijuIProcitajStudente(int brojStudenata, char*nazivDatoteke)
 	student* studenti = NULL;
 
 	studenti = (student*)malloc(brojStudenata * sizeof(student));
-	datoteka = fopen_s(nazivDatoteke, "r");
+	datoteka = fopen(nazivDatoteke, "r");
 
 	if (!datoteka) {
 		printf("Greska alociranja!");
@@ -76,7 +77,7 @@ student*AlocirajMemorijuIProcitajStudente(int brojStudenata, char*nazivDatoteke)
 	}
 
 	while (!feof(datoteka)) {
-		fscanf_s(datoteka, "%s %s %lf", studenti[brojac].ime, studenti[brojac].prezime, &studenti[brojac].bodovi);
+		fscanf(datoteka, "%s %s %lf", studenti[brojac].ime, studenti[brojac].prezime, &studenti[brojac].bodovi);
 		brojac++;
 	}
 
@@ -95,7 +96,7 @@ student*RacunanjeBodova(student*stud, int n, FILE*dat)
 	relativniBodovi = (float*)malloc(n * sizeof(float));
 
 	for (i = 0; i < n; i++) {
-		fscanf_s(dat, " %s %s %d", stud[i].ime, stud[i].prezime, &stud[i].bodovi);
+		fscanf(dat, " %s %s %lf", stud[i].ime, stud[i].prezime, &stud[i].bodovi);
 		if (maxBrojBodova < stud[i].bodovi) {
 			maxBrojBodova = stud[i].bodovi;
 		}
